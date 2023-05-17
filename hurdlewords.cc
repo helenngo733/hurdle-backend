@@ -26,18 +26,14 @@ HurdleWords::HurdleWords(const std::string& valid_hurdles_filename,
 }
 
 bool HurdleWords::IsGuessValid(const std::string& word) const {
-  //=================== YOUR CODE HERE ===================
-  // TODO: Return true if the given `word` is considered
-  // a valid guess. If the guess is invalid, return false.
-  //======================================================
+  if (valid_guesses_.find(word) != valid_guesses_.end()) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 const std::string& HurdleWords::GetRandomHurdle() const {
-  //=================== YOUR CODE HERE ===================
-  // TODO: Select and return a random Hurdle from the
-  // list of valid Hurdles stored in the valid_hurdles_
-  // vector.
-  // Hint: we suggest using the rand() function to
-  // generate a random number.
-  //======================================================
+  int random_index = rand() % valid_hurdles_.size();
+  return valid_hurdles_.at (random_index);
 }

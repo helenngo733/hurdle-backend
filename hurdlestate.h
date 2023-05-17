@@ -8,19 +8,73 @@
 
 class HurdleState {
  public:
-  //=================== YOUR CODE HERE ===================
-  // TODO: Add the constructor(s), accessors, mutators,
-  // and any other member function you may need here.
-  //======================================================
-  HurdleState(const std::string& answer);
+  HurdleState(const std::string& secret_hurdle)
+      : secret_hurdle_(secret_hurdle) {}
+
+  std::string GetSecretHurdle() const {
+    return secret_hurdle_;
+  }
+  void SetSecretHurdle(const std::string& secret_hurdle) {
+    secret_hurdle_ = secret_hurdle;
+  }
+  void AddLetter(char letter) {
+    current_guess_ += letter;
+  }
+  std::string GetCurrentGuess() const {
+    return current_guess_;
+  }
+  void RemoveLastLetter() {
+    if (!current_guess_.empty()) {
+      current_guess_.pop_back();
+    }
+  }
+  void AddGuess(const std::string& guess) {
+    guesses_.push_back(guess);
+  }
+
+  std::vector<std::string> GetGuesses() const {
+    return guesses_;
+  }
+
+  void AddColors(const std::string& colors) {
+    colors_.push_back(colors);
+  }
+
+  std::vector<std::string> GetColors() const {
+    return colors_;
+  }
+
+  void SetGameStatus(const std::string& status) {
+    game_status_ = status;
+  }
+
+  std::string GetGameStatus() const {
+    return game_status_;
+  }
+
+  void SetErrorMessage(const std::string& message) {
+    error_message_ = message;
+  }
+
+  std::string GetErrorMessage() const {
+    return error_message_;
+  }
+  void Reset() {
+    secret_hurdle_ = "";
+    current_guess_ = "";
+    guesses_.clear();
+    colors_.clear();
+    game_status_ = "active";
+    error_message_ = "";
+  }
 
  private:
-  //=================== YOUR CODE HERE ===================
-  // TODO: Add any member variables you need here to store
-  // the state of the game. What information needs to be
-  // stored to fully represent the game state at a single
-  // point in time?
-  //======================================================
+  std::string secret_hurdle_;
+  std::string current_guess_;
+  std::vector<std::string> guesses_;
+  std::vector<std::string> colors_;
+  std::string game_status_;
+  std::string error_message_;
 };
 
 #endif  // HURDLESTATE_H
