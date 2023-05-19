@@ -2,7 +2,8 @@
 
 void HurdleGame::NewHurdle() {
   hurdle_state_.Reset();  // Reset the game state to start a new game
-  hurdle_state_.SetSecretHurdle(hurdlewords_.GetRandomHurdle());  // Select a new secret Hurdle
+  hurdle_state_.SetSecretHurdle(
+      hurdlewords_.GetRandomHurdle());  // Select a new secret Hurdle
   hurdle_state_.SetErrorMessage("");
 }
 
@@ -14,11 +15,10 @@ void HurdleGame::LetterEntered(char key) {
 void HurdleGame::WordSubmitted() {
   std::string guess = hurdle_state_.GetCurrentGuess();
   if (guess.length() != 5) {
-    hurdle_state_.SetErrorMessage(
-        "Invalid guess length!");
+    hurdle_state_.SetErrorMessage("Invalid guess length!");
   } else if (!hurdlewords_.IsGuessValid(guess)) {
     hurdle_state_.SetErrorMessage("Invalid guess!");
-  } else  {
+  } else {
     hurdle_state_.SetErrorMessage("");
   }
   // Process the valid guess
@@ -26,23 +26,21 @@ void HurdleGame::WordSubmitted() {
 
   // Check if the guess matches the secret Hurdle
   if (guess == hurdle_state_.GetSecretHurdle()) {
-    hurdle_state_.SetGameStatus("win");
+    hurdle_state_.SetStatus("win");
   } else if (hurdle_state_.GetGuesses().size() >= 6) {
-    hurdle_state_.SetGameStatus("lose");
+    hurdle_state_.SetStatus("lose");
   } else {
-    hurdle_state_.SetGameStatus("win");
+    hurdle_state_.SetStatus("win");
   }
 
   // Determine the colors associated with the guess
-  std::string colors;
-  for (char c : guess) {
-    size_t pos = hurdle_state_.GetSecretHurdle().find(c);
-    if (pos != std::string::npos) {
-      if (pos == hurdle_state_.GetCurrentGuess().find(c)) {
-        colors += "G";
-      } else {
-        colors += "Y";
-      }
+  std::string colors = "";
+  std::string secret_hurdle = hurdle_state_.GetSecretHurdle();
+  for (int i = 0; i < 5; i++) {
+    if (guess[i] == secret_hurdle[i]) {
+      colors += "G";
+    } else if (secret_hurdle.find(guess[i]) != std::string::npos) {
+      colors += "Y";
     } else {
       colors += "B";
     }
@@ -53,7 +51,7 @@ void HurdleGame::WordSubmitted() {
 void HurdleGame::LetterDeleted() {
   hurdle_state_.RemoveLastLetter();
   hurdle_state_.SetErrorMessage("");  // Remove the last entered letter from the
-                                     // current guess
+                                      // current guess
 }
 
 crow::json::wvalue HurdleGame::JsonFromHurdleState() {
@@ -63,7 +61,7 @@ crow::json::wvalue HurdleGame::JsonFromHurdleState() {
   hurdle_state_json["answer"] = hurdle_state_.GetSecretHurdle();
   hurdle_state_json["boardColors"] = hurdle_state_.GetColors();
   hurdle_state_json["guessedWords"] = hurdle_state_.GetGuesses();
-  hurdle_state_json["gameStatus"] = hurdle_state_.GetGameStatus();
+  hurdle_state_json["gameStatus"] = hurdle_state_.GetStatus();
   hurdle_state_json["errorMessage"] = hurdle_state_.GetErrorMessage();
   return hurdle_state_json;
 }

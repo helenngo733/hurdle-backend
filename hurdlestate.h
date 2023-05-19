@@ -44,11 +44,11 @@ class HurdleState {
     return colors_;
   }
 
-  void SetGameStatus(const std::string& status) {
+  void SetStatus(const std::string& status) {
     game_status_ = status;
   }
 
-  std::string GetGameStatus() const {
+  std::string GetStatus() const {
     return game_status_;
   }
 
@@ -76,5 +76,3 @@ class HurdleState {
   std::string game_status_;
   std::string error_message_;
 };
-
-#endif  // HURDLESTATE_H
