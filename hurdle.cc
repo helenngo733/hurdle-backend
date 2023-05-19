@@ -8,8 +8,11 @@ void HurdleGame::NewHurdle() {
 }
 
 void HurdleGame::LetterEntered(char key) {
-  hurdle_state_.AddLetter(key);  // Add the entered letter to the current guess
-  hurdle_state_.SetErrorMessage("");
+  if (hurdle_state_.GetCurrentGuess().size() != 5) {
+    hurdle_state_.AddLetter(key);  // Add the entered letter to the current guess
+    hurdle_state_.GetCurrentGuess() += key;
+    hurdle_state_.SetErrorMessage("");
+  }
 }
 
 void HurdleGame::WordSubmitted() {

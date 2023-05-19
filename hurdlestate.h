@@ -18,7 +18,14 @@ class HurdleState {
     secret_hurdle_ = secret_hurdle;
   }
   void AddLetter(char letter) {
-    current_guess_ += letter;
+    std::string n;
+    n.push_back(letter);
+    if (guesses_.empty()) {
+      guesses_.push_back(n);
+    } else {
+      int final_index = guesses_.size();
+      guesses_[final_index - 1].push_back(letter);
+    }
   }
   std::string GetCurrentGuess() const {
     return current_guess_;
@@ -76,3 +83,5 @@ class HurdleState {
   std::string game_status_;
   std::string error_message_;
 };
+
+#endif  // HURDLESTATE_H
