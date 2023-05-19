@@ -8,10 +8,16 @@ void HurdleGame::NewHurdle() {
 }
 
 void HurdleGame::LetterEntered(char key) {
-  if (hurdle_state_.GetCurrentGuess().size() != 5) {
-    hurdle_state_.AddLetter(key);  // Add the entered letter to the current guess
-    hurdle_state_.GetCurrentGuess() += key;
-    hurdle_state_.SetErrorMessage("");
+  hurdle_state_.AddLetter(key);  // Add the entered letter to the current guess
+  hurdle_state_.SetErrorMessage("");
+    std::string guess = hurdle_state_.GetCurrentGuess();
+
+  // Modify the existing code to incorporate the logic from AddLastGuess()
+  if (!hurdle_state_.GetGuesses().empty()) {
+    int final_index = hurdle_state_.GetGuesses().size() - 1;
+    hurdle_state_.GetGuesses()[final_index] += key;
+  } else {
+    hurdle_state_.AddGuess(guess);
   }
 }
 
