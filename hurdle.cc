@@ -7,8 +7,10 @@ void HurdleGame::NewHurdle() {
 }
 
 void HurdleGame::LetterEntered(char key) {
-  hurdle_state_.AddLetter(key);
-  hurdle_state_.SetErrorMessage("");
+  if (hurdle_state_.GetCurrentGuess().length() < 5) {
+    hurdle_state_.AddLetter(key);
+    hurdle_state_.SetErrorMessage("");
+  }
 }
 
 void HurdleGame::WordSubmitted() {

@@ -30,6 +30,16 @@ class HurdleState {
   }
 
   void AddLetter(char letter) {
+    if (current_guess_.size() != 5) {
+      std::string l;
+      l.push_back(letter);
+      if (guesses_.empty()) {
+        guesses_.push_back(l);
+      } else {
+        int index = guesses_.size();
+        guesses_[index - 1].push_back(letter);
+      }
+    }
     current_guess_ += letter;
   }
 
